@@ -10,6 +10,12 @@ import { extname } from 'path';
 import * as assert from 'assert';
 import { normalizeSlashes, versionGteLt } from './util';
 import { createRequire } from 'module';
+import type * as _ts from 'typescript';
+import { configToResolveIdByPaths } from './tsconfig-paths';
+
+const {
+  createResolve,
+} = require('../dist-raw/node-internal-modules-esm-resolve');
 
 // Note: On Windows, URLs look like this: file:///D:/dev/@TypeStrong/ts-node-examples/foo.ts
 
@@ -120,7 +126,23 @@ export function registerAndCreateEsmHooks(opts?: RegisterOptions) {
 
 export function createEsmHooks(tsNodeService: Service) {
   // Custom implementation that considers additional file extensions and automatically adds file extensions
-  const nodeResolveImplementation = tsNodeService.getNodeEsmResolver();
+
+  //original implementation
+  // const nodeResolveImplementation = tsNodeService.getNodeEsmResolver();
+
+  const resolveIdByPaths = configToResolveIdByPaths(
+    tsNodeService.config.options,
+    tsNodeService.configFilePath ?? process.cwd()
+  );
+  // Custom implementation that considers additional file extensions and automatically adds file extensions
+  const nodeResolveImplementation = createResolve({
+    extensions: tsNodeService.extensions,
+    tsNodeExperimentalSpecifierResolution:
+      tsNodeService.options.experimentalSpecifierResolution,
+    preferTsExts: tsNodeService.options.preferTsExts,
+    resolveIdByPaths,
+  });
+
   const nodeGetFormatImplementation = tsNodeService.getNodeEsmGetFormat();
   const extensions = tsNodeService.extensions;
 

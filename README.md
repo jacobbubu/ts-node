@@ -19,6 +19,9 @@ You can build the readme with this command:
 
 > TypeScript execution and REPL for node.js, with source map and native ESM support.
 
+This project is to make `ts-node-esm` support path mappings (defined in `tsconfig.compilerOptions.paths`). The modifications are temporary and for my use only. If you need this feature too, please wait for https://github.com/TypeStrong/ts-node/pull/1585.
+For usage, please see: [. /esm-usage-example](. /esm-usage-example), executed via `npm run esm-usage-example`.
+
 The latest documentation can also be found on our website: <https://typestrong.org/ts-node>
 
 # Table of Contents

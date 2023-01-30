@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
-    "module": "ESNext"
+    "module": "ESNext",
+    "baseUrl": "./",
+    "paths": {
+      "@ts-esm/foo": ["foo"],
+      "@ts-esm/foo/other": ["foo/other"],
+      "@ts-esm/foo/other/*": ["foo/other/*"]
+    }
   }
 }
